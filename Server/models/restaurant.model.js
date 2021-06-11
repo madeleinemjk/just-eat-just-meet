@@ -5,6 +5,21 @@ module.exports = (sequelize, Sequelize) => {
         },
         address: {
             type: Sequelize.STRING
+        },
+        rating: {
+            type: Sequelize.FLOAT
+        },
+        openingTime: {
+            type: Sequelize.TIME
+        },
+        closingTime: {
+            type: Sequelize.TIME
+        },
+        deliveryFee: {
+            type: Sequelize.FLOAT
+        },
+        minimumSpend: {
+            type: Sequelize.FLOAT
         }
     });
 
