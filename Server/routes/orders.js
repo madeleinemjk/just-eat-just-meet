@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../models');
 const Order = db.orders;
 const OrderItem = db.orderItems;
+const Restaurant = db.restaurants;
 
 // Get order with id, including order items
 router.get('/:id', async (req, res) => {
@@ -21,7 +22,13 @@ router.get('/:id', async (req, res) => {
                 ]
             }, {
                 association: Order.Restaurant,
-                as: 'restaurant'
+                as: 'restaurant',
+                include: [
+                    {
+                        association: Restaurant.MenuItems,
+                        as: 'menuItems'
+                    }
+                ]
             }]
         });
 
@@ -32,6 +39,29 @@ router.get('/:id', async (req, res) => {
         }
     } catch(error) {
         res.status(500).send(error.message || `Unable to get order with id ${orderId}`);
+    }
+});
+
+router.delete('/:id/orderItem/:orderItemId', async (req, res) => {
+    const orderId = req.params.id;
+    const orderItemId = req.params.orderItemId;
+
+    console.log(`Removing order item id ${orderItemId} from order id ${orderId}`);
+
+    try {
+        const deletedRecord = await OrderItem.destroy({
+            where: {
+                id: orderItemId
+            }
+        });
+
+        if (deletedRecord === 1) {
+            res.send('Success');
+        } else {
+            res.status(500).send(`Unable to delete order item with id ${orderItemId}`);
+        }
+    } catch (error) {
+        res.status(500).send(error.message || `Unable to delete order item with id ${orderItemId}`);
     }
 });
 
