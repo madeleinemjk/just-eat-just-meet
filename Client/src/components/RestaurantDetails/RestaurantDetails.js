@@ -40,6 +40,11 @@ class RestaurantDetails extends Component {
         }).catch(console.error);
     }
 
+    formatNumber = (number) => {
+        const float = parseFloat(number);
+        return float.toFixed(2);
+    };
+
     render() {
         if (this.state.restaurant)
             return <div className="restaurant-details">
@@ -51,8 +56,8 @@ class RestaurantDetails extends Component {
                     </div>
                     <div className="right">
                         <p>Hours: {this.state.restaurant.openingTime} - {this.state.restaurant.closingTime}</p>
-                        <p>Delivery Fee: {this.state.restaurant.deliveryFee}</p>
-                        <p>Minimum Spend: {this.state.restaurant.minimumSpend}</p>
+                        <p>Delivery Fee: £{this.formatNumber(this.state.restaurant.deliveryFee)}</p>
+                        <p>Minimum Spend: £{this.formatNumber(this.state.restaurant.minimumSpend)}</p>
                     </div>
                 </div>
                 

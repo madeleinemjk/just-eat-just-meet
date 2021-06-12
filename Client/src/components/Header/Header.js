@@ -6,9 +6,9 @@ import logo from '../../assets/logos/JustEatTakeaway_Logo.svg';
 class Header extends Component {
     render() {
         return <header className="header">
-            <div className="logo">
+            <Link to="/restaurants" className="logo">
                 <img src={logo} alt="Just Eat" />
-            </div>
+            </Link>
             <div className="links">
                 <Link to="/restaurants">Restaurants</Link>
             </div>
