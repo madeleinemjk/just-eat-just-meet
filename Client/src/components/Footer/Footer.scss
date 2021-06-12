@@ -1,0 +1,12 @@
+@use '../../styles/partials/colors' as *;
+
+.footer {
+    padding: 2rem 0;
+    background-color: rgba(0, 0, 0, 0.05);   
+    display: flex;
+    justify-content: center;
+
+    p {
+        color: $orange-main;
+    }
+}

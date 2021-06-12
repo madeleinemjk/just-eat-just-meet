@@ -1,0 +1,14 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 3rem 0;
+    align-items: center;
+
+    .logo {
+        max-width: 300px;
+
+        img {
+            max-width: 300px;
+        }
+    }
+}

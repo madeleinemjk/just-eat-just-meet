@@ -78,51 +78,70 @@ class Order extends Component {
             }).catch(console.error);
     };
 
+    formatNumber = (number) => {
+        const float = parseFloat(number);
+        return float.toFixed(2);
+    };
+
     render() {
         if (!this.state.order)
             return <p>Order</p>;
         else
             return <div>
-                <div>
+                <div className="order-id">
                     <p>Order ID: {this.state.order.id}</p>
                 </div>
-                <div>
-                    <p>Restaurant Name: {this.state.order.restaurant.name}</p>
-                    <p>Restaurant Address: {this.state.order.restaurant.address}</p>
-                    <p>Restaurant Rating: {this.state.order.restaurant.rating}</p>
-                    <p>Restaurant Opening Time: {this.state.order.restaurant.openingTime}</p>
-                    <p>Restaurant Closing Time: {this.state.order.restaurant.closingTime}</p>
-                    <p>Restaurant Delivery Fee: {this.state.order.restaurant.deliveryFee}</p>
-                    <p>Restaurant Minimum Spend: {this.state.order.restaurant.minimumSpend}</p>
+                <div className="order-summary">
+                    <div className="restaurant">
+                        <div class="left">
+                            <p>Name: {this.state.order.restaurant.name}</p>
+                            <p>Address: {this.state.order.restaurant.address}</p>
+                            <p>Rating: {this.formatNumber(this.state.order.restaurant.rating)}</p>
+                        </div>
+                        <div class="right">
+                            <p>Times: {this.state.order.restaurant.openingTime} - {this.state.order.restaurant.closingTime}</p>
+                            <p>Delivery Fee: £{this.formatNumber(this.state.order.restaurant.deliveryFee)}</p>
+                            <p>Minimum Spend: £{this.formatNumber(this.state.order.restaurant.minimumSpend)}</p>
+                        </div>
+                    </div>
 
-                    <div>
-                        <input type="text" onChange={this.handleNameChange}></input>
-                        <p><strong>Menu Items</strong></p>
+                    <input type="text" placeholder="Enter name" onChange={this.handleNameChange}></input>
+
+                    <div className="menu">
+                        <h2>Menu Items</h2>
                         {this.state.order.restaurant.menuItems.map(menuItem => {
                             return <div key={menuItem.id} className="menu-item">
-                                <div>{menuItem.name}</div>
-                                <div>{menuItem.price}</div>
-                                <div><input type="number" onChange={this.handleQuantityChange}></input></div>
-                                <div><button onClick={(event) => this.addOrderItem(event, menuItem)}>Add</button></div>
+                                <div class="left">
+                                    <h3>{menuItem.name}</h3>
+                                    <p>£{this.formatNumber(menuItem.price)}</p>
+                                </div>
+                                <div class="right">
+                                    <input type="number" placeholder="Quantity" onChange={this.handleQuantityChange} />
+                                    <button onClick={(event) => this.addOrderItem(event, menuItem)}>Add</button>
+                                </div>
                             </div>
                         })}
                     </div>
 
-                    <div>
-                        <p><strong>Order Items</strong></p>
+                    <div className="order">
+                        <h2>Order Items</h2>
                         {this.state.order.orderItems.map(orderItem => {
                             return <div className="order-item" key={orderItem.id}>
-                                <div>Name: {orderItem.customerName}</div>
-                                <div>Quantity: {orderItem.quantity}</div>
-                                <div>Menu Item: {orderItem.menuItem.name}</div>
-                                <div>Actions: <button onClick={(event) => this.deleteOrderItem(event, orderItem)}>Delete</button></div>
+                                <div class="left">
+                                    <div>Name: {orderItem.customerName}</div>
+                                    <div>Menu Item: {orderItem.menuItem.name}</div>
+                                </div>
+                                <div class="right">
+                                    <div>Quantity: {orderItem.quantity}</div>
+                                    <div><button onClick={(event) => this.deleteOrderItem(event, orderItem)}>Delete</button></div>
+                                </div>
                             </div>
                         })}
                     </div>
 
-                    <div>
-                        <p><strong>Total: </strong>{this.state.total || "N/A"} (Minimum: {this.state.order.restaurant.minimumSpend})</p>
-                        { (this.state.total > this.state.order.restaurant.minimumSpend) ? <button>Submit</button> : 'You have not met the minimum spend' }
+                    <div className="totals">
+                        <p><strong>Total: </strong>£{this.formatNumber(this.state.total) || "N/A"} (Minimum: £{this.formatNumber(this.state.order.restaurant.minimumSpend)})</p>
+                        {(this.state.total > this.state.order.restaurant.minimumSpend) ? <button>Submit</button> : 'You have not met the minimum spend'}
                     </div>
                 </div>
             </div>;

@@ -30,8 +30,29 @@ class Restaurants extends Component {
             .catch(console.error);
     }
 
+    formatNumber = (input) => {
+        const number = parseFloat(input);
+        return number.toFixed(2);
+    };
+
     render() {
-        return <div>{this.state.restaurants.map(restaurant => <p key={restaurant.id}><Link to={`/restaurants/${restaurant.id}`}>{restaurant.name}</Link></p>)}</div>;
+        return <div className="restaurant-list">
+            <h2>Restaurants</h2>
+            {this.state.restaurants.map(restaurant => 
+                <Link to={`/restaurants/${restaurant.id}`} className="item" key={restaurant.id}>
+                    <div className="left">
+                        <h3>{restaurant.name}</h3>
+                        <p>{restaurant.address}</p>
+                        <p>{this.formatNumber(restaurant.rating)}/5</p>
+                    </div>
+                    <div className="right">
+                        <p>Hours: {restaurant.openingTime} - {restaurant.closingTime}</p>
+                        <p>Delivery Fee: £{this.formatNumber(restaurant.deliveryFee)}</p>
+                        <p>Minimum Spend: £{this.formatNumber(restaurant.minimumSpend)}</p>
+                    </div>
+                </Link>
+            )}
+        </div>;
     }
 }
 

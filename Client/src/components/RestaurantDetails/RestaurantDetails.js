@@ -42,23 +42,38 @@ class RestaurantDetails extends Component {
 
     render() {
         if (this.state.restaurant)
-            return <div>
-                <p>Name: {this.state.restaurant.name}</p>
-                <p>Address: {this.state.restaurant.address}</p>
-                <p>Rating: {this.state.restaurant.rating}</p>
-                <p>Opening Time: {this.state.restaurant.openingTime}</p>
-                <p>Closing Time: {this.state.restaurant.closingTime}</p>
-                <p>Delivery Fee: {this.state.restaurant.deliveryFee}</p>
-                <p>Minimum Spend: {this.state.restaurant.minimumSpend}</p>
-
-                {this.state.restaurant.menuItems?.length &&
-                    this.state.restaurant.menuItems.map(menuItem => <div key={menuItem.id}>
-                        <p>Name: {menuItem.name}, description: {menuItem.description}, price: {menuItem.price}</p>
+            return <div className="restaurant-details">
+                <div className="summary">
+                    <div className="left">
+                        <h3>{this.state.restaurant.name}</h3>
+                        <p>Address: {this.state.restaurant.address}</p>
+                        <p>Rating: {this.state.restaurant.rating}</p>
                     </div>
-                    )
-                }
+                    <div className="right">
+                        <p>Hours: {this.state.restaurant.openingTime} - {this.state.restaurant.closingTime}</p>
+                        <p>Delivery Fee: {this.state.restaurant.deliveryFee}</p>
+                        <p>Minimum Spend: {this.state.restaurant.minimumSpend}</p>
+                    </div>
+                </div>
+                
+                <div className="menu-items">
+                    {this.state.restaurant.menuItems?.length &&
+                        this.state.restaurant.menuItems.map(menuItem => <div key={menuItem.id} className="menu-item">
+                            <div class="left">
+                                <h3>{menuItem.name}</h3>
+                                <p>{menuItem.description}</p>
+                            </div>
+                            <div class="right">
+                                £{menuItem.price}
+                            </div>
+                        </div>
+                        )
+                    }
+                </div>
 
-                <button onClick={this.handleOrderCreate}>Create Order</button>
+                <div className="actions">
+                    <button onClick={this.handleOrderCreate}>Create Order</button>
+                </div>
             </div>;
         else
             return <p>No restaurant found for this ID</p>;
