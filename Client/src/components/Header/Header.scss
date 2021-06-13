@@ -1,3 +1,5 @@
+@use '../../styles/partials/colors' as *;
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -9,6 +11,12 @@
 
         img {
             max-width: 300px;
+        }
+    }
+
+    .links {
+        &:hover {
+            color: $white;
         }
     }
 }

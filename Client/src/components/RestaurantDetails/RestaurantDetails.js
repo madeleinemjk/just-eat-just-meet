@@ -46,18 +46,21 @@ class RestaurantDetails extends Component {
     };
 
     formatDistance = (input) => {
-        const number = parseFloat(input);
-        return number.toFixed(1);
+        const dist = parseFloat(input);
+        return dist.toFixed(1);
     };
 
     render() {
         if (this.state.restaurant)
             return <div className="restaurant-details">
+                <div className="title">
+                    <h3>{this.state.restaurant.name}</h3>
+                    <button onClick={this.handleOrderCreate}><span className="fa fa-plus"></span> Create Order</button>
+                </div>
                 <div className="summary">
                     <div className="left">
-                        <h3>{this.state.restaurant.name}</h3>
                         <p>Address: {this.state.restaurant.address}</p>
-                        <p>Rating: {this.state.restaurant.rating}</p>
+                        <p>Rating: {this.state.restaurant.rating} <span className="fa fa-star checked"></span></p>
                         <p>Distance: {this.formatDistance(this.state.restaurant.distance)} miles</p>
                     </div>
                     <div className="right">
@@ -70,20 +73,16 @@ class RestaurantDetails extends Component {
                 <div className="menu-items">
                     {this.state.restaurant.menuItems?.length &&
                         this.state.restaurant.menuItems.map(menuItem => <div key={menuItem.id} className="menu-item">
-                            <div class="left">
+                            <div className="left">
                                 <h3>{menuItem.name}</h3>
                                 <p>{menuItem.description}</p>
                             </div>
-                            <div class="right">
+                            <div className="right">
                                 £{this.formatNumber(menuItem.price)}
                             </div>
                         </div>
                         )
                     }
-                </div>
-
-                <div className="actions">
-                    <button onClick={this.handleOrderCreate}>Create Order</button>
                 </div>
             </div>;
         else

@@ -1,9 +1,11 @@
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React, { Component } from "react";
 import "./Order.scss";
 import axios from "axios";
 import { Link } from 'react-router-dom';
-const API_URL = process.env.REACT_APP_BACKEND_URL;
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 class Order extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +13,7 @@ class Order extends Component {
         this.state = {
             order: null,
             name: null,
-            quantity: null,
+            quantity: {},
             total: null
         };
     }
@@ -39,9 +41,12 @@ class Order extends Component {
         this.setState({name: event.target.value});
     }
 
-    handleQuantityChange = (event) => {
+    handleQuantityChange = (event, menuItem) => {
         event.preventDefault();
-        this.setState({quantity: event.target.value});
+        const menuItems = this.state.order.restaurant.menuItems;
+        const updatedMenuItem = menuItems.find(x => x.id === menuItem.id);
+        updatedMenuItem.quantity = event.target.value;
+        this.setState({order: this.state.order});
     };
 
     updateTotal = () => {
@@ -59,11 +64,17 @@ class Order extends Component {
     addOrderItem = (event, menuItem) => {
         event.preventDefault();
 
+        if (!this.state.name || this.state.name.length === 0 || !menuItem.quantity || menuItem.quantity <= 0) {
+            toast.error('You must provide a name and a valid quantity');
+            return;
+        }
+
         axios.post(`${API_URL}/orders/${this.state.order.id}/orderItem`, {
-            quantity: this.state.quantity,
+            quantity: menuItem.quantity,
             customerName: this.state.name,
             menuItemId: menuItem.id
         }).then(res => {
+            toast.success('Successfully added your item to the order');
             console.log(res);
             this.fetchData();
         }).catch(console.error);
@@ -74,14 +85,34 @@ class Order extends Component {
 
         axios.delete(`${API_URL}/orders/${this.state.order.id}/orderItem/${orderItem.id}`)
             .then(res => {
+                toast.success('Succesfully removed item from order');
                 console.log(res);
                 this.fetchData();
             }).catch(console.error);
     };
 
-    formatNumber = (number) => {
+    formatNumber = (number, places = 2) => {
         const float = parseFloat(number);
-        return float.toFixed(2);
+        return float.toFixed(places);
+    };
+
+    groupOrderItemsByCustomerName = () => {
+        const grouped = {};
+        const allOrderItems = this.state.order.orderItems;
+        allOrderItems.forEach(orderItem => {
+            if (!grouped[orderItem.customerName]) grouped[orderItem.customerName] = {items: [], total: 0};
+            grouped[orderItem.customerName].items.push(orderItem);
+            grouped[orderItem.customerName].total += orderItem.quantity * orderItem.menuItem.price;
+        });
+
+        return Object.keys(grouped).map(name => ({name: name, items: grouped[name].items, total: grouped[name].total}));
+    };
+
+    shareLink = (event) => {
+        event.preventDefault();
+        const currentUrl = window.location.href;
+        navigator.clipboard.writeText(currentUrl);
+        toast.success('Copied link to clipboard!');
     };
 
     render() {
@@ -89,35 +120,43 @@ class Order extends Component {
             return <p>Order</p>;
         else
             return <div>
-                <div className="order-id">
-                    <p>Order ID: {this.state.order.id}</p>
-                </div>
                 <div className="order-summary">
-                    <div className="restaurant">
-                        <div class="left">
-                            <p>Name: {this.state.order.restaurant.name}</p>
-                            <p>Address: {this.state.order.restaurant.address}</p>
-                            <p>Rating: {this.formatNumber(this.state.order.restaurant.rating)}</p>
+                    <div className="top-box">
+                        <div className="left">
+                            <h2>Order for {this.state.order.restaurant.name}</h2>
+                            <p>Nice to JustMeet you! First off, let's get acquainted</p>
+                            <input type="text" placeholder="Enter name" onChange={this.handleNameChange}></input>
                         </div>
-                        <div class="right">
-                            <p>Times: {this.state.order.restaurant.openingTime} - {this.state.order.restaurant.closingTime}</p>
-                            <p>Delivery Fee: £{this.formatNumber(this.state.order.restaurant.deliveryFee)}</p>
-                            <p>Minimum Spend: £{this.formatNumber(this.state.order.restaurant.minimumSpend)}</p>
+                        <div className="right">
+                            <button onClick={this.shareLink}><span className="fa fa-share"></span> Share link with friends!</button>
                         </div>
                     </div>
 
-                    <input type="text" placeholder="Enter name" onChange={this.handleNameChange}></input>
+                    <div className="restaurant">
+                        <div className="inner">
+                            <div className="left">
+                                <p>Order ID: {this.state.order.id}</p>
+                                <p>Address: {this.state.order.restaurant.address}</p>
+                                <p>Rating: {this.formatNumber(this.state.order.restaurant.rating, 1)}</p>
+                            </div>
+                            <div className="right">
+                                <p>Times: {this.state.order.restaurant.openingTime} - {this.state.order.restaurant.closingTime}</p>
+                                <p>Delivery Fee: £{this.formatNumber(this.state.order.restaurant.deliveryFee)}</p>
+                                <p>Minimum Spend: £{this.formatNumber(this.state.order.restaurant.minimumSpend)}</p>
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="menu">
                         <h2>Menu Items</h2>
                         {this.state.order.restaurant.menuItems.map(menuItem => {
                             return <div key={menuItem.id} className="menu-item">
-                                <div class="left">
+                                <div className="left">
                                     <h3>{menuItem.name}</h3>
                                     <p>£{this.formatNumber(menuItem.price)}</p>
                                 </div>
-                                <div class="right">
-                                    <input type="number" placeholder="Quantity" onChange={this.handleQuantityChange} />
+                                <div className="right">
+                                    <input type="number" min="0" placeholder="Quantity" onChange={(event) => this.handleQuantityChange(event, menuItem)} />
                                     <button onClick={(event) => this.addOrderItem(event, menuItem)}>Add</button>
                                 </div>
                             </div>
@@ -126,17 +165,25 @@ class Order extends Component {
 
                     <div className="order">
                         <h2>Order Items</h2>
-                        {this.state.order.orderItems.map(orderItem => {
-                            return <div className="order-item" key={orderItem.id}>
-                                <div class="left">
-                                    <div>Name: {orderItem.customerName}</div>
-                                    <div>Menu Item: {orderItem.menuItem.name}</div>
+                        {this.groupOrderItemsByCustomerName().map(group => {
+                            return <div className="customer" key={group.name}>
+                                <div className="customer-top">
+                                    <h3>{group.name}</h3>
+                                    <span>Total: £{this.formatNumber(group.total)}</span>
                                 </div>
-                                <div class="right">
-                                    <div>Quantity: {orderItem.quantity}</div>
-                                    <div><button onClick={(event) => this.deleteOrderItem(event, orderItem)}>Delete</button></div>
-                                </div>
-                            </div>
+                                {group.items.map(orderItem => {
+                                    return <div className="order-item" key={orderItem.id}>
+                                        <div className="left">
+                                            <h3>{orderItem.menuItem.name}</h3>
+                                            <p>Quantity: {orderItem.quantity}</p>
+                                            <p>Price: £{this.formatNumber(orderItem.quantity * orderItem.menuItem.price)}</p>
+                                        </div>
+                                        <div className="right">
+                                            <div><button onClick={(event) => this.deleteOrderItem(event, orderItem)}>Delete</button></div>
+                                        </div>
+                                    </div>
+                                })}
+                            </div>;
                         })}
                     </div>
 

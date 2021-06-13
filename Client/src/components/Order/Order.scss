@@ -18,14 +18,31 @@
     padding: 3rem 2rem;
     margin-bottom: 3rem;
 
+    .top-box {
+        background: $white;
+        border-radius: 10px;
+        padding: 2rem 3rem;
+        margin-bottom: 2rem;
+
+        display: flex;
+        justify-content: space-between;
+
+        input {
+            margin-top: 1rem;
+        }
+    }
+
     .restaurant {
         display: block;
         background: $white;
         border-radius: 10px;
         padding: 2rem 3rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
+
+        .inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
 
         .right {
             text-align: right;
@@ -37,7 +54,7 @@
     }
 
     .menu {
-        background: white;
+        background: $white;
         margin-top: 2rem;
         padding: 2rem 3rem;
         border-radius: 10px;
@@ -69,6 +86,16 @@
         margin-top: 2rem;
         padding: 2rem 3rem;
         border-radius: 10px;
+
+        .customer {
+            margin-bottom: 2rem;
+
+            .customer-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
 
         .order-item {
             display: flex;

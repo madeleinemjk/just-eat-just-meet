@@ -4,15 +4,32 @@
 .submit-options {
     background: $mid-grey;
     border-radius: 10px;
-    padding: 3rem 2rem;
+    padding: 1rem 2rem;
     margin-bottom: 3rem;
 
-    &__packaging-div {
-        margin-bottom: 1rem;
+    &__packaging {
+        margin: 2rem 0;
+    
+        &-div {
+            margin-bottom: 1rem;
 
-        label {
-            padding: 1rem;
+            label {
+                padding: 1rem;
+            }
         }
+    }
+
+    &__img {
+        display: flex;
+        margin: 1rem;
+        justify-content: center;
+
+        img {
+            min-width: 25rem;
+            max-width: 25rem;
+            border-radius: 5px;
+        }
+
     }
 
     &__checkout-div {

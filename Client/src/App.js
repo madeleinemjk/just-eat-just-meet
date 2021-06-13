@@ -6,6 +6,7 @@ import RestaurantDetails from './components/RestaurantDetails/RestaurantDetails'
 import Restaurants from './components/Restaurants/Restaurants';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import { ToastContainer } from 'react-toastify';
 
 class App extends React.Component {
   render() {
@@ -22,6 +23,7 @@ class App extends React.Component {
       </BrowserRouter>
       </div>
       <Footer />
+      <ToastContainer />
       </>
     )
   };

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import './Submit.scss';
+import sauce from '../../assets/images/notpla-seaweed-sauce-sachet.png';
+import box from '../../assets/images/notpla-just-eat-seaweed-takeaway-box.png';
 
 export default class Submit extends Component {
     render() {
         return (
             <div className="submit-options">
+                <div className="submit-options__img"><img src={box} alt="Notpla seaweed sauce sachets" /></div>
                 <div className="submit-options__packaging">
                     <div className="submit-options__packaging-div">
                         <input type="checkbox" id="optionHemp" name="submit-options__packaging-div--hemp" value="hempChecked" />
@@ -12,7 +15,7 @@ export default class Submit extends Component {
                     </div>
                     <div className="submit-options__packaging-div">
                         <input type="checkbox" id="optionSeaweedSachet" name="submit-options__packaging-div--seaweed-sachet" value="seaweedSachetChecked" />
-                            <label for="optionSeaweedSachet">Kelp the planet by opting for biodegradable -tasteless and edible!- sauce sachets made out of seaweed. They are easier to open too!</label><br></br>
+                            <label for="optionSeaweedSachet">Kelp the planet by opting for biodegradable -tasteless and edible- sauce sachets made out of seaweed. They are easier to open too!</label><br></br>
                     </div>
                     <div className="submit-options__packaging-div">
                         <input type="checkbox" id="optionSeaweedContainer" name="submit-options__packaging-div--seaweed-container" value="seaweedContainerChecked" />
@@ -23,6 +26,7 @@ export default class Submit extends Component {
                             <label for="optionBamboo">If you need single-use cutlery, check this box. We have switched from plastic to bamboo - biodegradable and stronger too!</label>
                     </div>
                 </div>
+                <div className="submit-options__img"><img src={sauce} alt="Just Eat x Notpla seaweed takeaway box" /></div>
                 <div className="submit-options__checkout-div">
                     <button className="submit-options__checkout-div--button">Checkout</button>
                 </div>

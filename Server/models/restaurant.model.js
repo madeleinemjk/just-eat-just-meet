@@ -20,6 +20,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         minimumSpend: {
             type: Sequelize.FLOAT
+        },
+        distance: {
+            type: Sequelize.FLOAT
         }
     });
 

@@ -6,6 +6,14 @@
     padding: 3rem 2rem;
     margin-bottom: 3rem;
 
+    .title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
     .summary {
         display: block;
         background: white;
@@ -43,9 +51,8 @@
             }
         }
     }
+}
 
-    .actions {
-        display: flex;
-        justify-content: flex-end;
-    }
+.checked {
+    color: $orange-main;
 }
