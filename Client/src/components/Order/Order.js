@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Order.scss";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 class Order extends Component {
@@ -141,7 +142,7 @@ class Order extends Component {
 
                     <div className="totals">
                         <p><strong>Total: </strong>£{this.formatNumber(this.state.total) || "N/A"} (Minimum: £{this.formatNumber(this.state.order.restaurant.minimumSpend)})</p>
-                        {(this.state.total > this.state.order.restaurant.minimumSpend) ? <button>Submit</button> : 'You have not met the minimum spend'}
+                        {(this.state.total > this.state.order.restaurant.minimumSpend) ? <Link to={`/orders/${this.state.order.id}/submit`} className="item"><button>Submit</button></Link> : 'You have not met the minimum spend'}
                     </div>
                 </div>
             </div>;

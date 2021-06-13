@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Submit from './components/Submit/Submit';
 import Order from './components/Order/Order';
 import RestaurantDetails from './components/RestaurantDetails/RestaurantDetails';
 import Restaurants from './components/Restaurants/Restaurants';
@@ -15,7 +16,8 @@ class App extends React.Component {
         <Switch>
           <Route path='/restaurants' exact component={Restaurants} />
           <Route path='/restaurants/:id' render={routeProps => (<RestaurantDetails {...routeProps} />)} />
-          <Route path='/orders/:id' render={routeProps => (<Order {...routeProps} />)} />
+          <Route exact path='/orders/:id' render={routeProps => (<Order {...routeProps} />)} />
+          <Route path='/orders/:id/submit' render={routeProps => (<Submit {...routeProps} />)} />
         </Switch>
       </BrowserRouter>
       </div>

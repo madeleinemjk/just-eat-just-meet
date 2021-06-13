@@ -45,6 +45,11 @@ class RestaurantDetails extends Component {
         return float.toFixed(2);
     };
 
+    formatDistance = (input) => {
+        const number = parseFloat(input);
+        return number.toFixed(1);
+    };
+
     render() {
         if (this.state.restaurant)
             return <div className="restaurant-details">
@@ -53,6 +58,7 @@ class RestaurantDetails extends Component {
                         <h3>{this.state.restaurant.name}</h3>
                         <p>Address: {this.state.restaurant.address}</p>
                         <p>Rating: {this.state.restaurant.rating}</p>
+                        <p>Distance: {this.formatDistance(this.state.restaurant.distance)} miles</p>
                     </div>
                     <div className="right">
                         <p>Hours: {this.state.restaurant.openingTime} - {this.state.restaurant.closingTime}</p>
@@ -69,7 +75,7 @@ class RestaurantDetails extends Component {
                                 <p>{menuItem.description}</p>
                             </div>
                             <div class="right">
-                                £{menuItem.price}
+                                £{this.formatNumber(menuItem.price)}
                             </div>
                         </div>
                         )

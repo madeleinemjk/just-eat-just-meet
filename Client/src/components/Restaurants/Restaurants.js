@@ -35,6 +35,11 @@ class Restaurants extends Component {
         return number.toFixed(2);
     };
 
+    formatDistance = (input) => {
+        const number = parseFloat(input);
+        return number.toFixed(1);
+    };
+
     render() {
         return <div className="restaurant-list">
             <h2>Restaurants</h2>
@@ -43,12 +48,13 @@ class Restaurants extends Component {
                     <div className="left">
                         <h3>{restaurant.name}</h3>
                         <p>{restaurant.address}</p>
-                        <p>{this.formatNumber(restaurant.rating)}/5</p>
+                        <p>{this.formatNumber(restaurant.rating)}/6</p>
                     </div>
                     <div className="right">
                         <p>Hours: {restaurant.openingTime} - {restaurant.closingTime}</p>
                         <p>Delivery Fee: £{this.formatNumber(restaurant.deliveryFee)}</p>
                         <p>Minimum Spend: £{this.formatNumber(restaurant.minimumSpend)}</p>
+                        <p>Distance: {this.formatDistance(restaurant.distance)} miles</p>
                     </div>
                 </Link>
             )}

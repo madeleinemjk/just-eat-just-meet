@@ -20,7 +20,7 @@
 
     .restaurant {
         display: block;
-        background: white;
+        background: $white;
         border-radius: 10px;
         padding: 2rem 3rem;
         display: flex;
@@ -49,6 +49,10 @@
             padding: 2rem 3rem;
             justify-content: space-between;
 
+            &:not(:first-child) {
+                margin-top: 1.5rem;
+            }
+
             .right {
                 display: flex;
                 align-items: stretch;
@@ -61,7 +65,7 @@
     }
 
     .order {
-        background: white;
+        background: $white;
         margin-top: 2rem;
         padding: 2rem 3rem;
         border-radius: 10px;

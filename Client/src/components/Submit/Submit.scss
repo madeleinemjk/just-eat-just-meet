@@ -1,0 +1,22 @@
+@use '../../styles/partials/colors' as *;
+@use '../../styles/partials/breakpoints' as *;
+
+.submit-options {
+    background: $mid-grey;
+    border-radius: 10px;
+    padding: 3rem 2rem;
+    margin-bottom: 3rem;
+
+    &__packaging-div {
+        margin-bottom: 1rem;
+
+        label {
+            padding: 1rem;
+        }
+    }
+
+    &__checkout-div {
+        display: flex;
+        justify-content: flex-end;
+    }
+}

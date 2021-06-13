@@ -27,14 +27,14 @@ button {
     color: $orange-main;
     border: 1px solid $orange-main;
     border-radius: 5px;
-    background: white;
+    background: $white;
     padding: 1rem 1.5rem;
     cursor: pointer;
     transition: 0.2s ease all;
 
     &:hover {
         background: $orange-main;
-        color: white;
+        color: $white;
     }
 }
 
