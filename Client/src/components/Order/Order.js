@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import "./Order.scss";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import socketIOClient from "socket.io-client";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 class Order extends Component {
@@ -14,12 +15,30 @@ class Order extends Component {
             order: null,
             name: null,
             quantity: {},
-            total: null
+            total: null,
+            socket: null
         };
     }
 
     componentDidMount() {
         this.fetchData();
+        const socket = socketIOClient(API_URL);
+        socket.on("Update", (update) => {
+            console.log(update);
+            if (parseInt(update.orderId) === parseInt(this.state.order.id)) {
+                toast.success('Your order has been updated', {
+                    toastId: 'new-items'
+                });
+                this.fetchData();
+            }
+        });
+        this.setState({
+            socket: socket
+        });
+    }
+
+    componentWillUnmount() {
+        this.socket && this.socket.disconnect();
     }
 
     fetchData() {
@@ -74,9 +93,7 @@ class Order extends Component {
             customerName: this.state.name,
             menuItemId: menuItem.id
         }).then(res => {
-            toast.success('Successfully added your item to the order');
-            console.log(res);
-            this.fetchData();
+            // No need to re-fetch here, sockets will handle it
         }).catch(console.error);
     };
 
@@ -85,7 +102,9 @@ class Order extends Component {
 
         axios.delete(`${API_URL}/orders/${this.state.order.id}/orderItem/${orderItem.id}`)
             .then(res => {
-                toast.success('Succesfully removed item from order');
+                toast.success('Succesfully removed item from order', {
+                    toastId: 'remove-item'
+                });
                 console.log(res);
                 this.fetchData();
             }).catch(console.error);

@@ -4,6 +4,24 @@ const cors = require('cors');
 const db = require('./models');
 const restaurantRoutes = require('./routes/restaurants');
 const orderRoutes = require('./routes/orders');
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io')(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+});
+
+// Set up socket.io
+io.on('connection', (socket) => {
+    console.log('User connected');
+});
+
+app.use((req, _, next) => {
+    req.io = io;
+    next();
+});
 
 // Set up env variables
 require('dotenv').config();
@@ -12,6 +30,10 @@ const PORT = process.env.PORT || 8081;
 // Add JSON and CORS middleware
 app.use(express.json());
 app.use(cors());
+
+app.get('/', (req, res) => {
+    res.send('Hello world');
+});
 
 // Set up routes
 app.use("/restaurants", restaurantRoutes);
@@ -27,6 +49,6 @@ db.sequelize.sync({force: reloadDb})
     });
 
 // Start app
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Express server listening on port ${PORT}`);
 }); 

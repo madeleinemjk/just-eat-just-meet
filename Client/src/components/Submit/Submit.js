@@ -7,7 +7,11 @@ export default class Submit extends Component {
     render() {
         return (
             <div className="submit-options">
-                <div className="submit-options__img"><img src={box} alt="Notpla seaweed sauce sachets" /></div>
+                <h2>JustBeat Climate Change Today</h2>
+                <div className="submit-options__img">
+                    <img src={box} alt="Notpla seaweed sauce sachets" />
+                    <img src={sauce} alt="Just Eat x Notpla seaweed takeaway box" />
+                </div>
                 <div className="submit-options__packaging">
                     <div className="submit-options__packaging-div">
                         <input type="checkbox" id="optionHemp" name="submit-options__packaging-div--hemp" value="hempChecked" />
@@ -26,7 +30,6 @@ export default class Submit extends Component {
                             <label for="optionBamboo">If you need single-use cutlery, check this box. We have switched from plastic to bamboo - biodegradable and stronger too!</label>
                     </div>
                 </div>
-                <div className="submit-options__img"><img src={sauce} alt="Just Eat x Notpla seaweed takeaway box" /></div>
                 <div className="submit-options__checkout-div">
                     <button className="submit-options__checkout-div--button">Checkout</button>
                 </div>

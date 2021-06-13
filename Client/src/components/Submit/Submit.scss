@@ -22,12 +22,12 @@
     &__img {
         display: flex;
         margin: 1rem;
-        justify-content: center;
+        justify-content: space-between;
 
         img {
             min-width: 25rem;
-            max-width: 25rem;
             border-radius: 5px;
+            width: 48%;
         }
 
     }

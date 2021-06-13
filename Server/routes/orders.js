@@ -57,6 +57,7 @@ router.delete('/:id/orderItem/:orderItemId', async (req, res) => {
 
         if (deletedRecord === 1) {
             res.send('Success');
+            req.io.sockets.emit('Update', {orderId: orderId});
         } else {
             res.status(500).send(`Unable to delete order item with id ${orderItemId}`);
         }
@@ -75,6 +76,7 @@ router.post('/:id/orderItem', async (req, res) => {
             orderItem.orderId = orderId;
             const data = await OrderItem.create(orderItem);
             res.send(data);
+            req.io.sockets.emit('Update', {orderId: orderId});
         } catch (error) {
             res.status(500).send(`Unable to create order item for order id ${orderId}`);
         }
