@@ -31,7 +31,7 @@
         margin-bottom: 2rem;
 
         @include mobile {
-            padding: 1rem 2rem;
+            padding: 1rem 1rem;
             margin-bottom: 1rem;
             flex-direction: column;
 
@@ -55,7 +55,7 @@
         padding: 2rem 3rem;
 
         @include mobile {
-            padding: 1rem 2rem;
+            padding: 1rem 1rem;
         }
 
         .inner {
@@ -90,7 +90,7 @@
         border-radius: 10px;
 
         @include mobile {
-            padding: 1rem 2rem;
+            padding: 1rem 1rem;
             margin-top: 1rem;
         }
 
@@ -102,7 +102,7 @@
             justify-content: space-between;
 
             @include mobile {
-                padding: 1rem 2rem;
+                padding: 1rem 1rem;
                 flex-direction: column;
             }
 
@@ -142,7 +142,7 @@
         border-radius: 10px;
 
         @include mobile {
-            padding: 1rem 2rem;
+            padding: 1rem 1rem;
         }
 
         .customer {
@@ -168,11 +168,12 @@
             justify-content: space-between;
 
             @include mobile {
+                padding: 1rem 1rem;
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
 
                 .left input {
-                    margin: 1rem 0;
+                    margin: 0.5rem 0;
                 }
             }
             
@@ -181,8 +182,8 @@
             }
 
             .left {
-                div:first-child {
-                    margin-bottom: 2rem;
+                p:last-child {
+                    margin-top: 1rem;
                 }
             }
 
@@ -191,6 +192,8 @@
 
                 @include mobile {
                     text-align: left;
+                    display: flex;
+                    justify-content: space-between;
                 }
 
                 div:first-child {

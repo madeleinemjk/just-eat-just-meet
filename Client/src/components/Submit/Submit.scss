@@ -12,6 +12,10 @@
         padding: 1rem 1rem;
     }
 
+    &__advisory {
+        margin-bottom: 1rem;
+    }
+
     &__packaging {
         margin: 2rem 0;
 
@@ -54,6 +58,7 @@
 
     &__checkout-div {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
     }
 }
