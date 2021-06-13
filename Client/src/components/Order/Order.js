@@ -24,7 +24,6 @@ class Order extends Component {
         this.fetchData();
         const socket = socketIOClient(API_URL);
         socket.on("Update", (update) => {
-            console.log(update);
             if (parseInt(update.orderId) === parseInt(this.state.order.id)) {
                 toast.success('Your order has been updated', {
                     toastId: 'new-items'
@@ -102,10 +101,6 @@ class Order extends Component {
 
         axios.delete(`${API_URL}/orders/${this.state.order.id}/orderItem/${orderItem.id}`)
             .then(res => {
-                toast.success('Succesfully removed item from order', {
-                    toastId: 'remove-item'
-                });
-                console.log(res);
                 this.fetchData();
             }).catch(console.error);
     };
