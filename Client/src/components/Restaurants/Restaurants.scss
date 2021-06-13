@@ -1,10 +1,17 @@
 @use '../../styles/partials/colors' as *;
+@use '../../styles/partials/breakpoints' as *;
 
 .restaurant-list {
     background: $mid-grey;
     border-radius: 10px;
     padding: 3rem 2rem;
     margin-bottom: 3rem;
+
+    @include mobile {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding: 2rem 1rem;
+    }
 
     input {
         margin-bottom: 2rem;
@@ -20,6 +27,12 @@
         align-items: flex-end;
         transition: 0.2s ease all;
 
+        @include mobile {
+            flex-direction: column;
+            padding: 1rem 1.5rem;
+            align-items: flex-start;
+        }
+
         &:hover {
             background: $orange-main;
             color: $white;
@@ -31,6 +44,10 @@
 
         .right {
             text-align: right;
+
+            @include mobile {
+                text-align: left;
+            }
         }
         
         &:not(:last-child) {

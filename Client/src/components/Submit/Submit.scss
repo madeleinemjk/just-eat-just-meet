@@ -7,8 +7,17 @@
     padding: 1rem 2rem;
     margin-bottom: 3rem;
 
+    @include mobile {
+        margin-bottom: 1.5rem;
+        padding: 1rem 1rem;
+    }
+
     &__packaging {
         margin: 2rem 0;
+
+        @include mobile {
+            margin: 1rem 0;
+        }
     
         &-div {
             margin-bottom: 1rem;
@@ -30,6 +39,17 @@
             width: 48%;
         }
 
+        @include mobile {
+            flex-direction: column;
+            justify-content: stretch;
+            margin: 0;
+
+            img {
+                min-width: 0;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+        }
     }
 
     &__checkout-div {

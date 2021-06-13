@@ -42,6 +42,26 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.put('/:id/orderItem/:orderItemId', async (req, res) => {
+    const orderId = req.params.id;
+    const orderItemId = req.params.orderItemId;
+    const orderItem = req.body;
+
+    console.log(`Updating order item with id ${orderItemId}`);
+
+    try {
+        const recordUpdated = await OrderItem.update(
+            { quantity: orderItem.quantity },
+            { where: { id: orderItemId }}
+        );
+
+        res.send(recordUpdated);
+        req.io.sockets.emit('Update', {orderId: orderId});
+    } catch (error) {
+        res.status(500).send(error.message || `Unable to update orderItem with id ${orderItemId}`);
+    }
+});
+
 router.delete('/:id/orderItem/:orderItemId', async (req, res) => {
     const orderId = req.params.id;
     const orderItemId = req.params.orderItemId;

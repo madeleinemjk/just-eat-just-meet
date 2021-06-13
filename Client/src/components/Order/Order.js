@@ -67,6 +67,16 @@ class Order extends Component {
         this.setState({order: this.state.order});
     };
 
+    handleQuantityChangeForOrderItem = (event, orderItem) => {
+        event.preventDefault();
+        const orderItems = this.state.order.orderItems;
+        const updatedOrderItem = orderItems.find(x => x.id === orderItem.id);
+        updatedOrderItem.quantity = event.target.value;
+        this.setState({
+            order: this.state.order
+        });
+    };
+
     updateTotal = () => {
         const orderItems = this.state.order.orderItems;
         const total = orderItems.map(item => item.quantity * item.menuItem.price)
@@ -100,8 +110,17 @@ class Order extends Component {
         event.preventDefault();
 
         axios.delete(`${API_URL}/orders/${this.state.order.id}/orderItem/${orderItem.id}`)
-            .then(res => {
-                this.fetchData();
+            .then(_ => {
+                console.log('Deleted order item, waiting for socket message');
+            }).catch(console.error);
+    };
+
+    updateOrderItem = (event, orderItem) => {
+        event.preventDefault();
+        
+        axios.put(`${API_URL}/orders/${this.state.order.id}/orderItem/${orderItem.id}`, {quantity: orderItem.quantity})
+            .then(_ => {
+                console.log('Deleted order item, waiting for socket message');
             }).catch(console.error);
     };
 
@@ -170,7 +189,7 @@ class Order extends Component {
                                     <p>£{this.formatNumber(menuItem.price)}</p>
                                 </div>
                                 <div className="right">
-                                    <input type="number" min="0" placeholder="Quantity" onChange={(event) => this.handleQuantityChange(event, menuItem)} />
+                                    <input type="number" min="1" placeholder="Quantity" onChange={(event) => this.handleQuantityChange(event, menuItem)} />
                                     <button onClick={(event) => this.addOrderItem(event, menuItem)}>Add</button>
                                 </div>
                             </div>
@@ -189,11 +208,12 @@ class Order extends Component {
                                     return <div className="order-item" key={orderItem.id}>
                                         <div className="left">
                                             <h3>{orderItem.menuItem.name}</h3>
-                                            <p>Quantity: {orderItem.quantity}</p>
+                                            <p>Quantity: <input type="number" min="1" value={orderItem.quantity} placeholder="Quantity" onChange={(event) => this.handleQuantityChangeForOrderItem(event, orderItem)} /></p>
                                             <p>Price: £{this.formatNumber(orderItem.quantity * orderItem.menuItem.price)}</p>
                                         </div>
                                         <div className="right">
-                                            <div><button onClick={(event) => this.deleteOrderItem(event, orderItem)}>Delete</button></div>
+                                            <button onClick={(event) => this.updateOrderItem(event, orderItem)}><span className="fa fa-save"></span> Update</button>
+                                            <button onClick={(event) => this.deleteOrderItem(event, orderItem)}><span className="fa fa-trash"></span> Delete</button>
                                         </div>
                                     </div>
                                 })}
@@ -203,7 +223,7 @@ class Order extends Component {
 
                     <div className="totals">
                         <p><strong>Total: </strong>£{this.formatNumber(this.state.total) || "N/A"} (Minimum: £{this.formatNumber(this.state.order.restaurant.minimumSpend)})</p>
-                        {(this.state.total > this.state.order.restaurant.minimumSpend) ? <Link to={`/orders/${this.state.order.id}/submit`} className="item"><button>Submit</button></Link> : 'You have not met the minimum spend'}
+                        {(this.state.total >= this.state.order.restaurant.minimumSpend) ? <Link to={`/orders/${this.state.order.id}/submit`} className="item"><button>Submit</button></Link> : 'You have not met the minimum spend'}
                     </div>
                 </div>
             </div>;
