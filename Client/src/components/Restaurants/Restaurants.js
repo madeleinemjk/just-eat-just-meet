@@ -10,7 +10,8 @@ class Restaurants extends Component {
         super(props);
 
         this.state = {
-            restaurants: []
+            restaurants: [],
+            filteredRestaurants: []
         };
     }
 
@@ -21,7 +22,8 @@ class Restaurants extends Component {
 
                 if (restaurants?.length) {
                     this.setState({
-                        restaurants: restaurants
+                        restaurants: restaurants,
+                        filteredRestaurants: restaurants
                     });
                 } else {
                     console.error('No restaurants were returned from the API');
@@ -40,10 +42,27 @@ class Restaurants extends Component {
         return dist.toFixed(1);
     };
 
+    handleSearchChange = (event) => {
+        event.preventDefault();
+        const searchText = event.target.value;
+
+        if (searchText && searchText.length > 0) {
+            const filtered = this.state.restaurants.filter(x => x.name.toLowerCase().includes(searchText.toLowerCase()));
+            this.setState({
+                filteredRestaurants: filtered
+            });
+        } else {
+            this.setState({
+                filteredRestaurants: this.state.restaurants
+            });
+        }
+    };
+
     render() {
         return <div className="restaurant-list">
             <h2>Restaurants</h2>
-            {this.state.restaurants.map(restaurant => 
+            <input type="text" placeholder="Search here" onChange={this.handleSearchChange}></input>
+            {this.state.filteredRestaurants.map(restaurant => 
                 <Link to={`/restaurants/${restaurant.id}`} className="item" key={restaurant.id}>
                     <div className="left">
                         <h3>{restaurant.name}</h3>

@@ -4,6 +4,7 @@ import sauce from '../../assets/images/notpla-seaweed-sauce-sachet.png';
 import box from '../../assets/images/notpla-just-eat-seaweed-takeaway-box.png';
 
 export default class Submit extends Component {
+
     render() {
         return (
             <div className="submit-options">

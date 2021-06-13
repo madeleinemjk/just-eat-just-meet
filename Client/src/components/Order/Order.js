@@ -137,7 +137,7 @@ class Order extends Component {
                 <div className="order-summary">
                     <div className="top-box">
                         <div className="left">
-                            <h2>Order for {this.state.order.restaurant.name}</h2>
+                            <h2>Order from {this.state.order.restaurant.name}</h2>
                             <p>Nice to JustMeet you! First off, let's get acquainted</p>
                             <input type="text" placeholder="Enter name" onChange={this.handleNameChange}></input>
                         </div>
