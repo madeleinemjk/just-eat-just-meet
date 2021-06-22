@@ -1,4 +1,6 @@
 # Just Eat? Just Meet!
+## NOT AFFILIATED WITH OR ENDORSED BY JUST EAT
+## BrainStation Industry Project June 2021 Technology Winner
 Guests running late but you want to order now? Everyone fighting over a single phone to pick from the menu? Fix that problem with this new feature!
 
 ## Worried about the wait? Let us take that off your plate!
