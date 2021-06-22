@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
-import logo from '../../assets/logos/JustEatTakeaway_Logo.svg';
+import logo from '../../assets/logos/placeholder_logo.jpeg';
 
 class Header extends Component {
     render() {
